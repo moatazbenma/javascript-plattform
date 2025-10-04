@@ -1,0 +1,7 @@
+const ask = require("prompt-sync")()
+
+
+a = ask("Put a number : ")
+
+
+console.log(a * 1)
