@@ -1,0 +1,28 @@
+<% layout('layout') %>
+
+<h3>Dashboard</h3>
+<p>Welcome, <%= user.name %> — <span class="points"><%= user.points %> points</span></p>
+
+<div style="display:flex; gap:12px; margin-top:14px;">
+  <div style="flex:1">
+    <h4>Your progress</h4>
+    <div class="card">
+      <p>Completed lessons: <%= user.completed.length %></p>
+      <ul>
+      <% user.completed.forEach(id => {
+          const mat = materials.find(m => m.id === id);
+          if (mat) { %>
+            <li><%= mat.title %></li>
+      <% } }) %>
+      </ul>
+    </div>
+  </div>
+
+  <div style="flex:1">
+    <h4>Quick actions</h4>
+    <div class="card">
+      <p><a href="/materials">Browse materials</a></p>
+      <p><a href="/ai/chat">Talk to AI Tutor</a></p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<% layout('layout') %>
+
+<h3>Materials</h3>
+
+<form method="get" style="margin-bottom:12px;">
+  <input type="text" name="q" placeholder="Search..." value="<%= q %>" />
+  <button class="btn" type="submit">Search</button>
+</form>
+
+<div>
+  <% if (materials.length === 0) { %>
+    <p>No lessons found.</p>
+  <% } %>
+  <% materials.forEach(m => { %>
+    <div class="material">
+      <strong><a href="/materials/<%= m.id %>"><%= m.title %></a></strong>
+      <div class="small"><%= m.type %></div>
+      <p><%= m.content.substring(0,140) %>...</p>
+    </div>
+  <% }) %>
+</div>

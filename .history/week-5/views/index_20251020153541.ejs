@@ -1,0 +1,27 @@
+
+<div>
+  <h3>Learn English efficiently with AI</h3>
+  <p>Practice conversation with an AI chat, get grammar corrections, track progress and earn points.</p>
+
+  <div style="margin-top:16px;">
+    <% if (!currentUser) { %>
+      <a class="btn" href="/signup">Create free account</a>
+    <% } else { %>
+      <a class="btn" href="/dashboard">Go to Dashboard</a>
+    <% } %>
+  </div>
+
+  <hr style="margin:20px 0;" />
+
+  <h4>Featured lessons</h4>
+  <div>
+    <% const data = require('../data.json'); data.materials.slice(0,3).forEach(m => { %>
+      <div class="material">
+        <strong><%= m.title %></strong>
+        <div class="small"><%= m.type %></div>
+        <div style="margin-top:6px;"><%= m.content.substring(0,120) %>...</div>
+        <div style="margin-top:8px;"><a href="/materials/<%= m.id %>">View lesson</a></div>
+      </div>
+    <% }) %>
+  </div>
+</div>

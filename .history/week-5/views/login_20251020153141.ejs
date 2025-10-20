@@ -1,0 +1,13 @@
+<% layout('layout') %>
+
+<h3>Log in (enter email)</h3>
+<% if (error) { %>
+  <div style="color:#b91c1c;"><%= error %></div>
+<% } %>
+<form method="post">
+  <div class="form-row">
+    <label>Email</label>
+    <input type="email" name="email" />
+  </div>
+  <button class="btn" type="submit">Log in</button>
+</form>

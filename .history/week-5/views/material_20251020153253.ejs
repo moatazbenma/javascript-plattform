@@ -1,0 +1,13 @@
+<% layout('layout') %>
+
+<h3><%= material.title %></h3>
+<div class="small"><%= material.type %></div>
+<p style="margin-top:12px;"><%= material.content %></p>
+
+<% if (user) { %>
+  <form method="post" action="/materials/<%= material.id %>/complete" style="margin-top:12px;">
+    <button class="btn" type="submit">Mark as completed (+10 points)</button>
+  </form>
+<% } else { %>
+  <p><a href="/login">Log in</a> to mark completed and earn points.</p>
+<% } %>
