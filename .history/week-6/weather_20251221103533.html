@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <style>
+        /* Basic Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 350px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #ff7e5f;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #eb6750;
+        }
+
+        #result {
+            margin-top: 20px;
+            width: 100%;
+            min-height: 120px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .error {
+            color: #d32f2f;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff7e5f;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Weather App</h1>
+
+        <div class="input-container">
+            <input type="text" id="city" placeholder="Enter city name" />
+            <button onclick="getWeather()">Get Weather</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function getWeather() {
+            const city = document.getElementById('city').value.trim();
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if (!city) {
+                resultDiv.innerHTML = '<div class="error">Please enter a city name.</div>';
+                return;
+            }
+
+            const loader = document.createElement('div');
+            loader.className = 'loader';
+            resultDiv.appendChild(loader);
+
+            try {
+                const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
+                const data = await response.json();
+
+                resultDiv.innerHTML = ''; // remove loader
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="card">
+                            <h2>${data.city}</h2>
+                            <p><strong>Temperature:</strong> ${data.temperature} °C</p>
+                            <p><strong>Description:</strong> ${data.description}</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">${data.error}</div>`;
+                }
+
+            } catch (err) {
+                console.error(err);
+                resultDiv.innerHTML = '<div class="error">Failed to fetch weather data. Try again later.</div>';
+            }
+        }
+    </script>
+
+</body>
+</html>
